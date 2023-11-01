@@ -15,14 +15,13 @@ import org.hibernate.annotations.ColumnDefault;
 import org.tonality.util.HibernateUtil;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
 @Getter
 @Setter
 @Entity(name = "subscription")
 @Table(name = "subscription")
-public class Subscription implements Serializable {
+public class Subscription {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
