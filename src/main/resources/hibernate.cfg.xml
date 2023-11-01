@@ -5,13 +5,13 @@
 <hibernate-configuration>
     <session-factory>
 
-        <property name="hbm2ddl.auto">update</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
-        <property name="hibernate.connection.url">${DATABASE_URL}</property>
-        <property name="hibernate.connection.datasource">${DATABASE}</property>
-        <property name="hibernate.connection.username">${DATABASE_USERNAME}</property>
-        <property name="hibernate.connection.password">${DATABASE_PASSWORD}</property>
-        <property name="connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+        <property name="hibernate.connection.autocommit">false</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.connection.pool_size">10</property>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
 
         <mapping class="org.tonality.model.Subscription"/>
     </session-factory>
