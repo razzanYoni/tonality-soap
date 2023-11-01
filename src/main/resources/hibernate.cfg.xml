@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+
+        <property name="hbm2ddl.auto">update</property>
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.connection.url">${DATABASE_URL}</property>
+        <property name="hibernate.connection.datasource">${DATABASE}</property>
+        <property name="hibernate.connection.username">${DATABASE_USERNAME}</property>
+        <property name="hibernate.connection.password">${DATABASE_PASSWORD}</property>
+        <property name="connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+
+        <mapping class="org.tonality.model.Subscription"/>
+    </session-factory>
+</hibernate-configuration>
