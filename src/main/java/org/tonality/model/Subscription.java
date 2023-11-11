@@ -10,28 +10,22 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.tonality.type.SubscriptionStatus;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.ColumnDefault;
-import org.tonality.util.HibernateUtil;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Getter
 @Setter
 @Entity(name = "subscription")
 @Table(name = "subscription")
-public class Subscription {
+@IdClass(SubscriptionId.class)
+public class Subscription implements Serializable {
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    @Column(name = "subscription_id")
-    private long subscriptionId;
-
-    @Column(name = "user_id", nullable = false)
     private long userId;
 
-    @Column(name = "album_id", nullable = false)
+    @Id
     private long albumId;
 
     @Column(name = "subscription_status", nullable = false)
@@ -65,69 +59,6 @@ public class Subscription {
     }
 
     public String toString() {
-        return "Subscription: " + subscriptionId + " " + userId + " " + albumId + " " + status;
-    }
-
-    // Test
-    public static void main(String[] args) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-
-        // Create subscription
-        try {
-            Session session = sessionFactory.openSession();
-            Transaction tx = session.beginTransaction();
-
-            Subscription subscription = new Subscription();
-            subscription.setUserId(1);
-            subscription.setAlbumId(1);
-            session.save(subscription);
-            tx.commit();
-            session.close();
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-
-        // Get subscription from database
-        try {
-            Session session = sessionFactory.openSession();
-            Transaction tx = session.beginTransaction();
-
-            Subscription lastSubsId =  session.createQuery("from subscription order by subscriptionId desc", Subscription.class).setMaxResults(1).list().get(0);
-            Subscription subscription = session.get(Subscription.class, lastSubsId.getSubscriptionId());
-            System.out.println(subscription);
-            tx.commit();
-            session.close();
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-
-        // Update subscription
-        try {
-            Session session = sessionFactory.openSession();
-            Transaction tx = session.beginTransaction();
-
-            Subscription firstSubsId =  session.createQuery("from subscription order by subscriptionId asc", Subscription.class).setMaxResults(1).list().get(0);
-            Subscription subscription = session.get(Subscription.class, firstSubsId.getSubscriptionId());
-            subscription.setStatus(SubscriptionStatus.ACTIVE);
-            session.update(subscription);
-            tx.commit();
-            session.close();
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-
-        // Delete subscription
-        try {
-            Session session = sessionFactory.openSession();
-            Transaction tx = session.beginTransaction();
-
-            Subscription lastSubsId =  session.createQuery("from subscription order by subscriptionId desc", Subscription.class).setMaxResults(1).list().get(0);
-            Subscription subscription = session.get(Subscription.class, lastSubsId.getSubscriptionId());
-            session.delete(subscription);
-            tx.commit();
-            session.close();
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
+        return "Subscription: \n" + "userId :" + userId + " \nalbumId : " + albumId + " \nstatus: " + status;
     }
 }
