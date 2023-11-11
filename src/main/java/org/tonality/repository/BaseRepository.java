@@ -1,6 +1,5 @@
 package org.tonality.repository;
 
-import oracle.ucp.proxy.annotation.Pre;
 import org.hibernate.SessionFactory;
 import org.tonality.util.HibernateUtil;
 
@@ -14,7 +13,7 @@ import java.util.Map;
 
 public abstract class BaseRepository<T> {
     protected abstract Class<T> getEntityClass();
-    protected boolean add(T entity) {
+    public T add(T entity) {
         try {
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
             EntityManager entityManager = sessionFactory.createEntityManager();
@@ -22,29 +21,30 @@ public abstract class BaseRepository<T> {
             entityManager.persist(entity);
             entityManager.getTransaction().commit();
             entityManager.close();
-            return true;
+            return entity;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
-    protected boolean update(T entity) {
+
+    public T update(T entity) {
         try {
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
             EntityManager entityManager = sessionFactory.createEntityManager();
             entityManager.getTransaction().begin();
-            entityManager.persist(entity);
+            entityManager.merge(entity);
             entityManager.getTransaction().commit();
             entityManager.close();
-            return true;
+            return entity;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
 
     // get by id
-    protected <V> T getById(V id) {
+    public  <V> T getById(V id) {
         try {
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
             EntityManager entityManager = sessionFactory.createEntityManager();
@@ -60,7 +60,7 @@ public abstract class BaseRepository<T> {
     }
 
     // get by conditions
-    protected List<T> search(Map<String, Object>andConditions, Map<String, Object> orConditions) {
+    public List<T> search(Map<String, Object>andConditions, Map<String, Object> orConditions) {
         try {
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
             EntityManager entityManager = sessionFactory.createEntityManager();
@@ -88,6 +88,7 @@ public abstract class BaseRepository<T> {
             } else if (orPredicate.getExpressions().size() > 0) {
                 criteriaQuery.where(orPredicate);
             }
+
             List<T> entities = entityManager.createQuery(criteriaQuery).getResultList();
             entityManager.getTransaction().commit();
             entityManager.close();
@@ -99,7 +100,7 @@ public abstract class BaseRepository<T> {
     }
 
     // delete by id
-    protected <V> boolean deleteById(V id) {
+    public  <V> boolean deleteById(V id) {
         try {
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
             EntityManager entityManager = sessionFactory.createEntityManager();
@@ -116,7 +117,7 @@ public abstract class BaseRepository<T> {
     }
 
     // delete by entity
-    protected boolean delete(T entity) {
+    public boolean delete(T entity) {
         try {
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
             EntityManager entityManager = sessionFactory.createEntityManager();
@@ -132,7 +133,7 @@ public abstract class BaseRepository<T> {
     }
 
     // delete by conditions
-    protected boolean delete(Map<String, Object> conditions) {
+    public boolean delete(Map<String, Object> conditions) {
         try {
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
             EntityManager entityManager = sessionFactory.createEntityManager();
