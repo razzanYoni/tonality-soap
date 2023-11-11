@@ -45,7 +45,7 @@ public class Subscription extends BaseRepository<org.tonality.model.Subscription
 
         // get by conditions
         Map<String, Object> andConditions = new java.util.HashMap<>();
-        andConditions.put("albumId", 1);
+        andConditions.put("status", org.tonality.type.SubscriptionStatus.ACTIVE.toString());
         java.util.Map<String, Object> orConditions = new java.util.HashMap<>();
         java.util.List<org.tonality.model.Subscription> entities = subscription.search(andConditions, orConditions);
         for (org.tonality.model.Subscription e : entities) {
