@@ -28,6 +28,15 @@ public class Subscription implements Serializable {
     @Id
     private long albumId;
 
+    @Column(name = "username", nullable = false)
+    private String username;
+
+    @Column(name = "album_name", nullable = false)
+    private String albumName;
+
+    @Column(name = "artist", nullable = false)
+    private String artist;
+
     @Column(name = "subscription_status", nullable = false)
     @Enumerated(EnumType.STRING)
     @ColumnDefault("'PENDING'")
