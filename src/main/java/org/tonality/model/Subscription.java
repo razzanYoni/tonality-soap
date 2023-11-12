@@ -68,6 +68,6 @@ public class Subscription implements Serializable {
     }
 
     public String toString() {
-        return "Subscription: \n" + "userId :" + userId + " \nalbumId : " + albumId + " \nstatus: " + status;
+        return "Subscription: \n" + "userId :" + userId + "\n" + "username :" + username + "\n" + "albumId :" + albumId + "\n" + "albumName :" + albumName + "\n" + "artist :" + artist + "\n" + "status :" + status + "\n" + "createdAt :" + createdAt + "\n" + "updatedAt :" + updatedAt + "\n";
     }
 }
