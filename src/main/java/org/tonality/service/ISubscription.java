@@ -18,8 +18,8 @@ public interface ISubscription {
             long userId,
             @WebParam(name = "username")
             String username,
-            @WebParam(name = "albumId")
-            long albumId,
+            @WebParam(name = "premiumAlbumId")
+            long premiumAlbumId,
             @WebParam(name = "albumName")
             String albumName,
             @WebParam(name = "artist")
@@ -31,8 +31,8 @@ public interface ISubscription {
     org.tonality.model.Subscription updateSubscription(
             @WebParam(name = "userId")
             long userId,
-            @WebParam(name = "albumId")
-            long albumId,
+            @WebParam(name = "premiumAlbumId")
+            long premiumAlbumId,
             @WebParam(name = "status")
             org.tonality.type.SubscriptionStatus status
     );
@@ -42,8 +42,8 @@ public interface ISubscription {
     org.tonality.model.Subscription getSubscription(
             @WebParam(name = "userId")
             long userId,
-            @WebParam(name = "albumId")
-            long albumId
+            @WebParam(name = "premiumAlbumId")
+            long premiumAlbumId
     );
 
     @WebMethod
@@ -89,8 +89,8 @@ public interface ISubscription {
     boolean deleteSubscription(
             @WebParam(name = "userId")
             long userId,
-            @WebParam(name = "albumId")
-            long albumId
+            @WebParam(name = "premiumAlbumId")
+            long premiumAlbumId
     );
 
     @WebMethod
@@ -101,7 +101,7 @@ public interface ISubscription {
 
     @WebMethod
     boolean deleteSubscriptionsByAlbumId(
-            @WebParam(name = "albumId")
-            long albumId
+            @WebParam(name = "premiumAlbumId")
+            long premiumAlbumId
     );
 }

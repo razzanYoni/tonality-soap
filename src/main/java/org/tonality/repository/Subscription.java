@@ -22,12 +22,12 @@ public class Subscription extends BaseRepository<org.tonality.model.Subscription
         return instance;
     }
 
-    public org.tonality.model.Subscription createSubscription(long userId, String username, long albumId, String albumName, String artist) {
+    public org.tonality.model.Subscription createSubscription(long userId, String username, long premiumAlbumId, String albumName, String artist) {
         try {
             org.tonality.model.Subscription subscription = new org.tonality.model.Subscription();
             subscription.setUserId(userId);
             subscription.setUsername(username);
-            subscription.setAlbumId(albumId);
+            subscription.setPremiumAlbumId(premiumAlbumId);
             subscription.setAlbumName(albumName);
             subscription.setArtist(artist);
             if (org.tonality.repository.Subscription.getInstance().add(subscription) == null) {
@@ -40,9 +40,9 @@ public class Subscription extends BaseRepository<org.tonality.model.Subscription
         }
     }
 
-    public org.tonality.model.Subscription updateSubscription(long userId, long albumId, SubscriptionStatus status) {
+    public org.tonality.model.Subscription updateSubscription(long userId, long premiumAlbumId, SubscriptionStatus status) {
         try {
-            org.tonality.model.Subscription subscription = org.tonality.repository.Subscription.getInstance().getById(new org.tonality.model.SubscriptionId(userId, albumId));
+            org.tonality.model.Subscription subscription = org.tonality.repository.Subscription.getInstance().getById(new org.tonality.model.SubscriptionId(userId, premiumAlbumId));
             subscription.setStatus(status);
             if (update(subscription) == null) {
                 throw new Exception("Failed to update subscription");
@@ -138,10 +138,10 @@ public class Subscription extends BaseRepository<org.tonality.model.Subscription
         }
     }
 
-    public boolean deleteSubscriptionsByAlbumId(long albumId) {
+    public boolean deleteSubscriptionsByAlbumId(long premiumAlbumId) {
         try {
             java.util.Map<String, Object> conditions = new java.util.HashMap<>();
-            conditions.put("albumId", albumId);
+            conditions.put("premiumAlbumId", premiumAlbumId);
             if (!delete(conditions)) {
                 throw new Exception("Failed to delete subscriptions");
             }
@@ -161,7 +161,7 @@ public class Subscription extends BaseRepository<org.tonality.model.Subscription
         for (int i = 1; i < 4; i++) {
             for (int j = 1; j < 4; j++) {
                 entity.setUserId(i);
-                entity.setAlbumId(j);
+                entity.setPremiumAlbumId(j);
                 entity.setUsername("User " + i);
                 entity.setAlbumName("Album " + j);
                 entity.setArtist("Artist " + 10);
@@ -194,12 +194,12 @@ public class Subscription extends BaseRepository<org.tonality.model.Subscription
         // delete by entity
         entity = new org.tonality.model.Subscription();
         entity.setUserId(1);
-        entity.setAlbumId(3);
+        entity.setPremiumAlbumId(3);
         System.out.println("Successfully deleted : \n" + subscription.delete(entity));
 
         // delete by conditions
         andConditions = new java.util.HashMap<>();
-        andConditions.put("albumId", 1);
+        andConditions.put("premiumAlbumId", 1);
         System.out.println("Successfully deleted : \n" + subscription.delete(andConditions));
     }
 }

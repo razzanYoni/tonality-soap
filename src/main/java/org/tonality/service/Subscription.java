@@ -9,10 +9,10 @@ import java.util.List;
 @WebService(endpointInterface = "org.tonality.service.ISubscription")
 public class Subscription extends BaseWebService implements ISubscription {
     @Override
-    public org.tonality.model.Subscription createSubscription(long userId, String username, long albumId, String albumName, String artist) {
+    public org.tonality.model.Subscription createSubscription(long userId, String username, long premiumAlbumId, String albumName, String artist) {
         try {
             logRequest();
-            return org.tonality.repository.Subscription.getInstance().createSubscription(userId, username, albumId, albumName, artist);
+            return org.tonality.repository.Subscription.getInstance().createSubscription(userId, username, premiumAlbumId, albumName, artist);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -20,10 +20,10 @@ public class Subscription extends BaseWebService implements ISubscription {
     }
 
     @Override
-    public org.tonality.model.Subscription updateSubscription(long userId, long albumId, SubscriptionStatus status) {
+    public org.tonality.model.Subscription updateSubscription(long userId, long premiumAlbumId, SubscriptionStatus status) {
         try {
             logRequest();
-            return org.tonality.repository.Subscription.getInstance().updateSubscription(userId, albumId, status);
+            return org.tonality.repository.Subscription.getInstance().updateSubscription(userId, premiumAlbumId, status);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -31,10 +31,10 @@ public class Subscription extends BaseWebService implements ISubscription {
     }
 
     @Override
-    public org.tonality.model.Subscription getSubscription(long userId, long albumId) {
+    public org.tonality.model.Subscription getSubscription(long userId, long premiumAlbumId) {
         try {
             logRequest();
-            return org.tonality.repository.Subscription.getInstance().getById(new SubscriptionId(userId, albumId));
+            return org.tonality.repository.Subscription.getInstance().getById(new SubscriptionId(userId, premiumAlbumId));
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -75,10 +75,10 @@ public class Subscription extends BaseWebService implements ISubscription {
     }
 
     @Override
-    public boolean deleteSubscription(long userId, long albumId) {
+    public boolean deleteSubscription(long userId, long premiumAlbumId) {
         try {
             logRequest();
-            if (!org.tonality.repository.Subscription.getInstance().deleteById(new org.tonality.model.SubscriptionId(userId, albumId))) {
+            if (!org.tonality.repository.Subscription.getInstance().deleteById(new org.tonality.model.SubscriptionId(userId, premiumAlbumId))) {
                 throw new Exception("Failed to delete subscription");
             }
             return true;
@@ -100,10 +100,10 @@ public class Subscription extends BaseWebService implements ISubscription {
     }
 
     @Override
-    public boolean deleteSubscriptionsByAlbumId(long albumId) {
+    public boolean deleteSubscriptionsByAlbumId(long premiumAlbumId) {
         try {
             logRequest();
-            return org.tonality.repository.Subscription.getInstance().deleteSubscriptionsByAlbumId(albumId);
+            return org.tonality.repository.Subscription.getInstance().deleteSubscriptionsByAlbumId(premiumAlbumId);
         } catch (Exception e) {
             e.printStackTrace();
             return false;

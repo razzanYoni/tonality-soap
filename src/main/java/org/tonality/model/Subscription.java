@@ -3,9 +3,6 @@ package org.tonality.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.tonality.type.SubscriptionStatus;
@@ -26,7 +23,7 @@ public class Subscription implements Serializable {
     private long userId;
 
     @Id
-    private long albumId;
+    private long premiumAlbumId;
 
     @Column(name = "username", nullable = false)
     private String username;
@@ -68,6 +65,6 @@ public class Subscription implements Serializable {
     }
 
     public String toString() {
-        return "Subscription: \n" + "userId :" + userId + "\n" + "username :" + username + "\n" + "albumId :" + albumId + "\n" + "albumName :" + albumName + "\n" + "artist :" + artist + "\n" + "status :" + status + "\n" + "createdAt :" + createdAt + "\n" + "updatedAt :" + updatedAt + "\n";
+        return "Subscription: \n" + "userId :" + userId + "\n" + "username :" + username + "\n" + "premiumAlbumId :" + premiumAlbumId + "\n" + "albumName :" + albumName + "\n" + "artist :" + artist + "\n" + "status :" + status + "\n" + "createdAt :" + createdAt + "\n" + "updatedAt :" + updatedAt + "\n";
     }
 }
