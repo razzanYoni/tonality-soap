@@ -47,7 +47,7 @@ public interface ISubscription {
     );
 
     @WebMethod
-    @WebResult(name = "subscriptions")
+    @WebResult(name = "subscription")
     List<org.tonality.model.Subscription> searchSubscription(
             @WebParam(name = "status")
             SubscriptionStatus status,
@@ -62,7 +62,7 @@ public interface ISubscription {
     );
 
     @WebMethod
-    @WebResult(name = "subscriptions")
+    @WebResult(name = "subscription")
     List<org.tonality.model.Subscription> getSubscriptionsByStatus(
             @WebParam(name = "status")
             SubscriptionStatus status,
@@ -75,7 +75,7 @@ public interface ISubscription {
     );
 
     @WebMethod
-    @WebResult(name = "subscriptions")
+    @WebResult(name = "subscription")
     List<org.tonality.model.Subscription> getSubscriptionsByUserId(
             @WebParam(name = "userId")
             long userId,

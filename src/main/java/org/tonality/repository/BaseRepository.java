@@ -1,7 +1,6 @@
 package org.tonality.repository;
 
 import org.hibernate.SessionFactory;
-import org.tonality.model.Subscription;
 import org.tonality.util.HibernateUtil;
 
 import javax.persistence.EntityManager;
