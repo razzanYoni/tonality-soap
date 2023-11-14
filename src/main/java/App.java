@@ -1,4 +1,4 @@
-import org.tonality.ws.Subscription;
+import org.tonality.service.Subscription;
 
 import javax.xml.ws.Endpoint;
 

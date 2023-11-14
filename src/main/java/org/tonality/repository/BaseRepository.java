@@ -60,7 +60,7 @@ public abstract class BaseRepository<T> {
     }
 
     // get by conditions
-    public List<T> search(Map<String, Object>andConditions, Map<String, Object> orConditions) {
+    public List<T> search(Map<String, Object> andConditions, Map<String, Object> orConditions, String searchInput, List<String> searchField, String orderBy, int page, int size) {
         try {
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
             EntityManager entityManager = sessionFactory.createEntityManager();
@@ -68,11 +68,15 @@ public abstract class BaseRepository<T> {
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
             CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(this.getEntityClass());
             Root<T> root = criteriaQuery.from(this.getEntityClass());
+            List<Predicate> predicates = new java.util.ArrayList<>();
 
             // and conditions
             Predicate andPredicate = criteriaBuilder.conjunction();
             for (Map.Entry<String, Object> entry : andConditions.entrySet()) {
                 andPredicate = criteriaBuilder.and(andPredicate, criteriaBuilder.equal(root.get(entry.getKey()), entry.getValue()));
+            }
+            if (andPredicate.getExpressions().size() > 0) {
+                predicates.add(andPredicate);
             }
 
             // or conditions
@@ -80,16 +84,34 @@ public abstract class BaseRepository<T> {
             for (Map.Entry<String, Object> entry : orConditions.entrySet()) {
                 orPredicate = criteriaBuilder.or(orPredicate, criteriaBuilder.equal(root.get(entry.getKey()), entry.getValue()));
             }
-
-            if (andPredicate.getExpressions().size() > 0 && orPredicate.getExpressions().size() > 0) {
-                criteriaQuery.where(criteriaBuilder.and(andPredicate, orPredicate));
-            } else if (andPredicate.getExpressions().size() > 0) {
-                criteriaQuery.where(andPredicate);
-            } else if (orPredicate.getExpressions().size() > 0) {
-                criteriaQuery.where(orPredicate);
+            if (orPredicate.getExpressions().size() > 0) {
+                predicates.add(orPredicate);
             }
 
-            List<T> entities = entityManager.createQuery(criteriaQuery).getResultList();
+            // order by
+            criteriaQuery.orderBy(criteriaBuilder.asc(root.get(orderBy)));
+
+            // pagination
+            int offset = (page - 1) * size;
+
+            // like query
+            Predicate likePredicate = criteriaBuilder.disjunction();
+            if (!searchInput.isEmpty()) {
+                for (String field : searchField) {
+                    likePredicate = criteriaBuilder.or(likePredicate, criteriaBuilder.like(root.get(field), "%" + searchInput + "%"));
+                }
+            }
+            if (likePredicate.getExpressions().size() > 0) {
+                predicates.add(likePredicate);
+            }
+
+            if (predicates.size() > 0) {
+                criteriaQuery.where(predicates.toArray(new Predicate[0]));
+            } else {
+                criteriaQuery.where();
+            }
+
+            List<T> entities = entityManager.createQuery(criteriaQuery).setFirstResult(offset).setMaxResults(size).getResultList();
             entityManager.getTransaction().commit();
             entityManager.close();
             return entities;

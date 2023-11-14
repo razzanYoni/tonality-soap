@@ -12,27 +12,27 @@ public class SubscriptionId implements Serializable {
     @Column(name = "user_id", nullable = false)
     private long userId;
 
-    @Column(name = "album_id", nullable = false)
-    private long albumId;
+    @Column(name = "premium_album_id", nullable = false)
+    private long premiumAlbumId;
 
     public SubscriptionId() {}
 
-    public SubscriptionId(long userId, long albumId) {
+    public SubscriptionId(long userId, long premiumAlbumId) {
         this.userId = userId;
-        this.albumId = albumId;
+        this.premiumAlbumId = premiumAlbumId;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o instanceof SubscriptionId) {
             SubscriptionId other = (SubscriptionId) o;
-            return (userId == other.userId) && (albumId == other.albumId);
+            return (userId == other.userId) && (premiumAlbumId == other.premiumAlbumId);
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return (int) (userId + albumId);
+        return (int) (userId + premiumAlbumId);
     }
 }
