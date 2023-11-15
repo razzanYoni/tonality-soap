@@ -14,5 +14,6 @@
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
 
         <mapping class="org.tonality.model.Subscription"/>
+        <mapping class="org.tonality.model.Logging"/>
     </session-factory>
 </hibernate-configuration>
