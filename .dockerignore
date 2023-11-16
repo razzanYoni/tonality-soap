@@ -1,0 +1,7 @@
+.idea
+.env.example
+.gitignore
+./docker-compose.yml
+./Dockerfile
+./README.md
+./tonality-soap.iml
