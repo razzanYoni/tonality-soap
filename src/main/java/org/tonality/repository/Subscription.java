@@ -74,7 +74,10 @@ public class Subscription extends BaseRepository<org.tonality.model.Subscription
             }
 
             java.util.Map<String, Object> andConditions = new java.util.HashMap<>();
-            andConditions.put("status", status);
+            if (status != null && !status.toString().isEmpty() && !status.toString().equals("[string?]")) {
+                andConditions.put("status", status);
+            }
+
             java.util.Map<String, Object> orConditions = new java.util.HashMap<>();
             ArrayList<String> searchField = new ArrayList<>();
             searchField.add("username");
